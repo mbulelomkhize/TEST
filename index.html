@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Bubble Sort Game</title>
-
+    <title>Sorting Battle Arena</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,86 +10,81 @@
 
 <div class="game-container">
 
-    <!-- TOP PANEL -->
+    <!-- SIDEBAR -->
+    <div class="sidebar">
 
-    <div class="top-panel">
+        <h1 class="game-title">
+            SORTING<br><span>BATTLE ARENA</span>
+        </h1>
 
-        <div class="logo">
-            NEON SORT ARENA
+        <!-- ALGORITHM -->
+        <div class="control-group">
+
+            <h3>ALGORITHM</h3>
+
+            <div class="btn-grid">
+
+                <button onclick="setAlgorithm('bubble')" class="active">Bubble</button>
+                <button onclick="setAlgorithm('selection')">Selection</button>
+                <button onclick="setAlgorithm('insertion')">Insertion</button>
+
+            </div>
+
         </div>
 
-        <div class="stats">
+        <!-- ACTIONS -->
+        <div class="control-group">
 
-            <div class="stat-card">
-                LEVEL
-                <span id="level">1</span>
-            </div>
+            <h3>GAME CONTROL</h3>
 
-            <div class="stat-card">
-                SCORE
-                <span id="score">0</span>
-            </div>
+            <button onclick="generateArray()">New Game</button>
+            <button onclick="startGame()">Start</button>
+            <button onclick="resetGame()">Reset</button>
 
-            <div class="stat-card">
-                TIME
-                <span id="timer">60</span>
-            </div>
+        </div>
 
-            <div class="stat-card">
-                MISTAKES
-                <span id="mistakes">0</span>
-            </div>
+        <!-- STATS -->
+        <div class="stats-panel">
+
+            <p>🏆 Score: <span id="score">0</span></p>
+            <p>⭐ Level: <span id="level">1</span></p>
+            <p>⏱ Time: <span id="timer">60</span></p>
+            <p>❌ Mistakes: <span id="mistakes">0</span></p>
 
         </div>
 
     </div>
 
     <!-- GAME AREA -->
+    <div class="visualizer-container">
 
-    <div class="game-area">
-
-        <div class="robot-helper" id="robot-text">
-
-            🤖 Decide whether the highlighted bars should swap.
-
+        <div id="robot-text">
+            🤖 Choose algorithm and start the battle!
         </div>
-
-        <!-- ARRAY -->
 
         <div id="array-container"></div>
 
-        <!-- QUESTION -->
+        <!-- BUBBLE -->
+        <div id="bubble-ui">
 
-        <div class="question-box">
-
-            Should these swap?
-
-        </div>
-
-        <!-- BUTTONS -->
-
-        <div class="decision-buttons">
-
-            <button class="decision-btn swap-btn"
-                    onclick="playerChoice(true)">
-                SWAP
-            </button>
-
-            <button class="decision-btn no-btn"
-                    onclick="playerChoice(false)">
-                DON'T SWAP
-            </button>
+            <button onclick="bubbleAnswer(true)">SWAP</button>
+            <button onclick="bubbleAnswer(false)">DON'T SWAP</button>
 
         </div>
 
-        <!-- RESTART -->
+        <!-- SELECTION -->
+        <div id="selection-ui" style="display:none">
 
-        <button class="restart-btn"
-                onclick="restartLevel()">
+            <button onclick="selectionStep()">SELECT MIN</button>
 
-            RESTART LEVEL
+        </div>
 
-        </button>
+        <!-- INSERTION -->
+        <div id="insertion-ui" style="display:none">
+
+            <button onclick="insertionStep()">INSERT</button>
+
+        </div>
 
     </div>
 
