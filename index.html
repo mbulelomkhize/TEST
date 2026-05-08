@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Bubble Sort Game</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="game-container">
+
+    <!-- TOP PANEL -->
+
+    <div class="top-panel">
+
+        <div class="logo">
+            NEON SORT ARENA
+        </div>
+
+        <div class="stats">
+
+            <div class="stat-card">
+                LEVEL
+                <span id="level">1</span>
+            </div>
+
+            <div class="stat-card">
+                SCORE
+                <span id="score">0</span>
+            </div>
+
+            <div class="stat-card">
+                TIME
+                <span id="timer">60</span>
+            </div>
+
+            <div class="stat-card">
+                MISTAKES
+                <span id="mistakes">0</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- GAME AREA -->
+
+    <div class="game-area">
+
+        <div class="robot-helper" id="robot-text">
+
+            🤖 Decide whether the highlighted bars should swap.
+
+        </div>
+
+        <!-- ARRAY -->
+
+        <div id="array-container"></div>
+
+        <!-- QUESTION -->
+
+        <div class="question-box">
+
+            Should these swap?
+
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="decision-buttons">
+
+            <button class="decision-btn swap-btn"
+                    onclick="playerChoice(true)">
+                SWAP
+            </button>
+
+            <button class="decision-btn no-btn"
+                    onclick="playerChoice(false)">
+                DON'T SWAP
+            </button>
+
+        </div>
+
+        <!-- RESTART -->
+
+        <button class="restart-btn"
+                onclick="restartLevel()">
+
+            RESTART LEVEL
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="game.js"></script>
+
+</body>
+</html>
