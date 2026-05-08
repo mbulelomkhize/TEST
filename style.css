@@ -1,0 +1,338 @@
+:root{
+
+    --bg:#050816;
+    --panel:#101935;
+
+    --blue:#00d2ff;
+    --green:#39ff14;
+    --pink:#ff007f;
+    --red:#ff3b3b;
+    --yellow:#ffdf00;
+
+    --white:#ffffff;
+}
+
+body{
+
+    margin:0;
+    padding:0;
+
+    background:
+    radial-gradient(circle at top,#16213e,#050816);
+
+    font-family:Arial,sans-serif;
+
+    overflow:hidden;
+
+    color:white;
+}
+
+/* MAIN */
+
+.game-container{
+
+    width:100vw;
+    height:100vh;
+
+    display:flex;
+    flex-direction:column;
+}
+
+/* TOP PANEL */
+
+.top-panel{
+
+    width:100%;
+    padding:20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    box-sizing:border-box;
+}
+
+.logo{
+
+    font-size:34px;
+    font-weight:bold;
+
+    color:var(--blue);
+
+    text-shadow:
+    0 0 15px var(--blue),
+    0 0 40px var(--blue);
+}
+
+.stats{
+
+    display:flex;
+    gap:20px;
+}
+
+.stat-card{
+
+    background:var(--panel);
+
+    padding:15px 25px;
+
+    border-radius:18px;
+
+    border:2px solid var(--blue);
+
+    text-align:center;
+
+    box-shadow:
+    0 0 15px rgba(0,210,255,0.3);
+
+    font-weight:bold;
+}
+
+.stat-card span{
+
+    display:block;
+
+    margin-top:6px;
+
+    font-size:24px;
+
+    color:var(--yellow);
+}
+
+/* GAME */
+
+.game-area{
+
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+}
+
+/* ROBOT */
+
+.robot-helper{
+
+    background:#121d3d;
+
+    padding:16px 24px;
+
+    border-radius:18px;
+
+    border:2px solid var(--blue);
+
+    margin-bottom:30px;
+
+    font-size:20px;
+
+    box-shadow:
+    0 0 20px rgba(0,210,255,0.4);
+}
+
+/* ARRAY */
+
+#array-container{
+
+    display:flex;
+
+    align-items:flex-end;
+    justify-content:center;
+
+    gap:18px;
+
+    width:90%;
+    height:420px;
+}
+
+/* BAR */
+
+.bar{
+
+    width:70px;
+
+    border-radius:14px 14px 0 0;
+
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+
+    padding-bottom:12px;
+
+    font-size:22px;
+    font-weight:bold;
+
+    color:white;
+
+    transition:
+    transform 0.3s,
+    height 0.3s,
+    background 0.3s;
+
+    background:
+    linear-gradient(
+        to top,
+        #ff007f,
+        #ff66cc,
+        #ffffff
+    );
+
+    box-shadow:
+    0 0 15px #ff007f,
+    0 0 30px rgba(255,0,127,0.5);
+}
+
+/* CURRENT */
+
+.current{
+
+    transform:scale(1.1);
+
+    background:
+    linear-gradient(
+        to top,
+        #00d2ff,
+        #72e6ff,
+        white
+    );
+
+    box-shadow:
+    0 0 20px #00d2ff,
+    0 0 40px #00d2ff;
+}
+
+/* SORTED */
+
+.sorted{
+
+    background:
+    linear-gradient(
+        to top,
+        #39ff14,
+        #80ff66,
+        white
+    );
+
+    box-shadow:
+    0 0 20px #39ff14,
+    0 0 40px #39ff14;
+}
+
+/* WRONG */
+
+.wrong{
+
+    animation:shake 0.3s;
+}
+
+@keyframes shake{
+
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    50%{transform:translateX(6px);}
+    75%{transform:translateX(-6px);}
+    100%{transform:translateX(0);}
+}
+
+/* QUESTION */
+
+.question-box{
+
+    margin-top:20px;
+
+    font-size:28px;
+    font-weight:bold;
+
+    color:var(--yellow);
+}
+
+/* BUTTONS */
+
+.decision-buttons{
+
+    margin-top:30px;
+
+    display:flex;
+    gap:25px;
+}
+
+.decision-btn{
+
+    padding:18px 34px;
+
+    border:none;
+
+    border-radius:20px;
+
+    font-size:22px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.decision-btn:hover{
+
+    transform:scale(1.08);
+}
+
+.swap-btn{
+
+    background:
+    linear-gradient(
+        to right,
+        #39ff14,
+        #00ff95
+    );
+
+    color:black;
+
+    box-shadow:
+    0 0 20px rgba(57,255,20,0.6);
+}
+
+.no-btn{
+
+    background:
+    linear-gradient(
+        to right,
+        #ff007f,
+        #ff4da6
+    );
+
+    color:white;
+
+    box-shadow:
+    0 0 20px rgba(255,0,127,0.5);
+}
+
+/* RESTART */
+
+.restart-btn{
+
+    margin-top:30px;
+
+    background:#1c2754;
+
+    border:2px solid var(--blue);
+
+    color:white;
+
+    padding:15px 28px;
+
+    border-radius:18px;
+
+    font-size:18px;
+
+    cursor:pointer;
+}
+
+.restart-btn:hover{
+
+    background:var(--blue);
+
+    color:black;
+}
