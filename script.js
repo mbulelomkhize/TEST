@@ -1,389 +1,267 @@
-let level = 1;
+let array = [];
+let size = 3;
 
-let currentArray = [];
+let algorithm = "bubble";
 
-let currentIndex = 0;
-
+let index = 0;
 let pass = 0;
 
 let score = 0;
-
 let mistakes = 0;
+let level = 1;
 
 let timer = 60;
-
 let interval;
 
-/* START */
+/* INIT */
+generateArray();
 
-startLevel();
+/* =========================
+   ARRAY GENERATION
+========================= */
+function generateArray() {
 
-/* LEVEL */
+    array = [];
 
-function startLevel(){
+    size = 3 + (level - 1); // LEVEL STARTS AT 3
 
-    generateArray();
-
-    startTimer();
-
-    renderArray();
-
-    updateStats();
-
-    highlightPair();
-
-    robotMessage(
-        "Should these bars swap?"
-    );
-}
-
-/* ARRAY */
-
-function generateArray(){
-
-    let size = level + 2;
-
-    currentArray = [];
-
-    for(let i=0;i<size;i++){
-
-        currentArray.push(
-            Math.floor(Math.random()*90)+10
-        );
+    for (let i = 0; i < size; i++) {
+        array.push(Math.floor(Math.random() * 90) + 10);
     }
 
-    currentIndex = 0;
-
+    index = 0;
     pass = 0;
+
+    render();
 }
 
-/* RENDER */
+/* =========================
+   RENDER
+========================= */
+function render() {
 
-function renderArray(){
+    const container = document.getElementById("array-container");
+    container.innerHTML = "";
 
-    const container =
-    document.getElementById(
-        'array-container'
-    );
+    array.forEach((v, i) => {
 
-    container.innerHTML = '';
+        const div = document.createElement("div");
+        div.classList.add("bar");
 
-    currentArray.forEach((num,index)=>{
+        div.style.height = (v * 3) + "px";
+        div.innerText = v;
 
-        const bar =
-        document.createElement('div');
-
-        bar.classList.add('bar');
-
-        bar.style.height =
-        `${num*3}px`;
-
-        bar.innerText = num;
-
-        if(index >= currentArray.length-pass){
-
-            bar.classList.add('sorted');
-        }
-
-        container.appendChild(bar);
+        container.appendChild(div);
     });
 
-    highlightPair();
+    highlight();
 }
 
-/* HIGHLIGHT */
+/* =========================
+   HIGHLIGHT
+========================= */
+function highlight() {
 
-function highlightPair(){
+    let bars = document.querySelectorAll(".bar");
 
-    const bars =
-    document.querySelectorAll('.bar');
+    bars.forEach(b => b.classList.remove("active"));
 
-    bars.forEach(bar=>{
+    if (algorithm === "bubble") {
 
-        bar.classList.remove(
-            'current'
-        );
-    });
-
-    if(bars[currentIndex]){
-
-        bars[currentIndex]
-        .classList.add('current');
+        if (bars[index]) bars[index].classList.add("active");
+        if (bars[index + 1]) bars[index + 1].classList.add("active");
     }
 
-    if(bars[currentIndex+1]){
+    if (algorithm === "selection") {
 
-        bars[currentIndex+1]
-        .classList.add('current');
+        bars[index]?.classList.add("active");
+    }
+
+    if (algorithm === "insertion") {
+
+        bars[index]?.classList.add("active");
     }
 }
 
-/* PLAYER CHOICE */
+/* =========================
+   ALGORITHM SWITCH
+========================= */
+function setAlgorithm(type) {
 
-function playerChoice(choice){
+    algorithm = type;
 
-    const a =
-    currentArray[currentIndex];
+    document.getElementById("bubble-controls").style.display =
+        type === "bubble" ? "block" : "none";
 
-    const b =
-    currentArray[currentIndex+1];
+    document.getElementById("selection-controls").style.display =
+        type === "selection" ? "block" : "none";
 
-    const shouldSwap = a > b;
+    document.getElementById("insertion-controls").style.display =
+        type === "insertion" ? "block" : "none";
 
-    if(choice === shouldSwap){
+    index = 0;
+    render();
+}
 
-        correctMove();
+/* =========================
+   BUBBLE SORT GAME
+========================= */
+function answer(choice) {
 
-        if(choice){
+    let a = array[index];
+    let b = array[index + 1];
 
-            swap(
-                currentIndex,
-                currentIndex+1
-            );
+    let shouldSwap = a > b;
 
-            robotMessage(
-                "✅ Great swap!"
-            );
-        }
+    if (choice === shouldSwap) {
 
-        else{
+        score += 10;
 
-            robotMessage(
-                "✅ Correct! No swap needed."
-            );
-        }
+        if (choice) swap(index, index + 1);
+
+        nextBubble();
+
+    } else {
+
+        score -= 5;
+        mistakes++;
     }
 
-    else{
-
-        wrongMove();
-
-        shakeBars();
-
-        if(shouldSwap){
-
-            robotMessage(
-                "❌ They SHOULD swap."
-            );
-        }
-
-        else{
-
-            robotMessage(
-                "❌ They should NOT swap."
-            );
-        }
-    }
-
-    nextPair();
-
-    renderArray();
-
+    update();
+    render();
     checkWin();
 }
 
-/* NEXT PAIR */
+/* MOVE BUBBLE */
+function nextBubble() {
 
-function nextPair(){
+    index++;
 
-    currentIndex++;
+    if (index >= array.length - 1 - pass) {
 
-    if(
-        currentIndex >=
-        currentArray.length-1-pass
-    ){
-
-        currentIndex = 0;
-
+        index = 0;
         pass++;
     }
 }
 
-/* SWAP */
+/* =========================
+   SELECTION SORT GAME
+========================= */
+function selectMin() {
 
-function swap(i,j){
+    let minIndex = index;
 
-    let temp =
-    currentArray[i];
+    for (let i = index; i < array.length; i++) {
+        if (array[i] < array[minIndex]) {
+            minIndex = i;
+        }
+    }
 
-    currentArray[i] =
-    currentArray[j];
-
-    currentArray[j] = temp;
-}
-
-/* SCORE */
-
-function correctMove(){
+    swap(index, minIndex);
 
     score += 10;
 
-    updateStats();
+    index++;
+
+    update();
+    render();
+    checkWin();
 }
 
-function wrongMove(){
+/* =========================
+   INSERTION SORT GAME
+========================= */
+function insertHere() {
 
-    score -= 5;
+    let key = array[index];
+    let j = index - 1;
 
-    mistakes++;
-
-    updateStats();
-}
-
-/* STATS */
-
-function updateStats(){
-
-    document.getElementById(
-        'score'
-    ).innerText = score;
-
-    document.getElementById(
-        'mistakes'
-    ).innerText = mistakes;
-
-    document.getElementById(
-        'level'
-    ).innerText = level;
-
-    document.getElementById(
-        'timer'
-    ).innerText = timer;
-}
-
-/* ROBOT */
-
-function robotMessage(text){
-
-    document.getElementById(
-        'robot-text'
-    ).innerHTML =
-    `🤖 ${text}`;
-}
-
-/* SHAKE */
-
-function shakeBars(){
-
-    const bars =
-    document.querySelectorAll('.bar');
-
-    if(bars[currentIndex]){
-
-        bars[currentIndex]
-        .classList.add('wrong');
+    while (j >= 0 && array[j] > key) {
+        array[j + 1] = array[j];
+        j--;
     }
 
-    if(bars[currentIndex+1]){
+    array[j + 1] = key;
 
-        bars[currentIndex+1]
-        .classList.add('wrong');
-    }
+    score += 10;
 
-    setTimeout(()=>{
+    index++;
 
-        bars.forEach(bar=>{
-
-            bar.classList.remove(
-                'wrong'
-            );
-        });
-
-    },300);
+    update();
+    render();
+    checkWin();
 }
 
-/* WIN */
+/* =========================
+   SWAP
+========================= */
+function swap(i, j) {
 
-function checkWin(){
-
-    let sorted = true;
-
-    for(let i=0;i<currentArray.length-1;i++){
-
-        if(
-            currentArray[i] >
-            currentArray[i+1]
-        ){
-
-            sorted = false;
-            break;
-        }
-    }
-
-    if(sorted){
-
-        levelComplete();
-    }
+    let temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
 }
 
-/* LEVEL COMPLETE */
+/* =========================
+   CHECK WIN
+========================= */
+function checkWin() {
 
-function levelComplete(){
+    for (let i = 0; i < array.length - 1; i++) {
+        if (array[i] > array[i + 1]) return;
+    }
 
-    clearInterval(interval);
+    level++;
 
     score += 100;
 
-    robotMessage(
-        "🏆 LEVEL COMPLETE!"
-    );
+    alert("LEVEL COMPLETE!");
 
-    updateStats();
-
-    setTimeout(()=>{
-
-        level++;
-
-        timer = Math.max(
-            15,
-            60-level*3
-        );
-
-        startLevel();
-
-    },2000);
+    generateArray();
 }
 
-/* TIMER */
-
-function startTimer(){
+/* =========================
+   TIMER
+========================= */
+function startGame() {
 
     clearInterval(interval);
 
-    interval = setInterval(()=>{
+    interval = setInterval(() => {
 
         timer--;
 
-        updateStats();
+        update();
 
-        if(timer <= 0){
+        if (timer <= 0) {
 
-            clearInterval(interval);
-
-            robotMessage(
-                "⏰ Time Up!"
-            );
-
-            setTimeout(()=>{
-
-                restartLevel();
-
-            },1500);
+            alert("TIME UP!");
+            resetGame();
         }
 
-    },1000);
+    }, 1000);
 }
 
-/* RESTART */
+/* =========================
+   RESET
+========================= */
+function resetGame() {
 
-function restartLevel(){
-
-    timer = Math.max(
-        15,
-        60-level*3
-    );
-
+    score = 0;
     mistakes = 0;
+    level = 1;
+    timer = 60;
 
-    startLevel();
+    generateArray();
+}
+
+/* =========================
+   UPDATE UI
+========================= */
+function update() {
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("level").innerText = level;
+    document.getElementById("mistakes").innerText = mistakes;
+    document.getElementById("timer").innerText = timer;
 }
