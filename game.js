@@ -15,6 +15,7 @@ let interval;
 
 /* INIT */
 generateArray();
+setAlgorithmUI();
 
 /* =========================
    ARRAY GENERATION
@@ -23,7 +24,7 @@ function generateArray() {
 
     array = [];
 
-    size = 3 + (level - 1); // LEVEL STARTS AT 3
+    size = 3 + (level - 1);
 
     for (let i = 0; i < size; i++) {
         array.push(Math.floor(Math.random() * 90) + 10);
@@ -43,7 +44,7 @@ function render() {
     const container = document.getElementById("array-container");
     container.innerHTML = "";
 
-    array.forEach((v, i) => {
+    array.forEach((v) => {
 
         const div = document.createElement("div");
         div.classList.add("bar");
@@ -67,18 +68,15 @@ function highlight() {
     bars.forEach(b => b.classList.remove("active"));
 
     if (algorithm === "bubble") {
-
         if (bars[index]) bars[index].classList.add("active");
         if (bars[index + 1]) bars[index + 1].classList.add("active");
     }
 
     if (algorithm === "selection") {
-
         bars[index]?.classList.add("active");
     }
 
     if (algorithm === "insertion") {
-
         bars[index]?.classList.add("active");
     }
 }
@@ -89,22 +87,27 @@ function highlight() {
 function setAlgorithm(type) {
 
     algorithm = type;
-
-    document.getElementById("bubble-controls").style.display =
-        type === "bubble" ? "block" : "none";
-
-    document.getElementById("selection-controls").style.display =
-        type === "selection" ? "block" : "none";
-
-    document.getElementById("insertion-controls").style.display =
-        type === "insertion" ? "block" : "none";
-
     index = 0;
+
+    setAlgorithmUI();
     render();
 }
 
+/* SHOW/HIDE UI */
+function setAlgorithmUI() {
+
+    document.getElementById("bubble-ui").style.display =
+        algorithm === "bubble" ? "flex" : "none";
+
+    document.getElementById("selection-ui").style.display =
+        algorithm === "selection" ? "flex" : "none";
+
+    document.getElementById("insertion-ui").style.display =
+        algorithm === "insertion" ? "flex" : "none";
+}
+
 /* =========================
-   BUBBLE SORT GAME
+   BUBBLE GAME
 ========================= */
 function answer(choice) {
 
@@ -132,20 +135,18 @@ function answer(choice) {
     checkWin();
 }
 
-/* MOVE BUBBLE */
 function nextBubble() {
 
     index++;
 
     if (index >= array.length - 1 - pass) {
-
         index = 0;
         pass++;
     }
 }
 
 /* =========================
-   SELECTION SORT GAME
+   SELECTION SORT
 ========================= */
 function selectMin() {
 
@@ -169,7 +170,7 @@ function selectMin() {
 }
 
 /* =========================
-   INSERTION SORT GAME
+   INSERTION SORT
 ========================= */
 function insertHere() {
 
@@ -196,14 +197,13 @@ function insertHere() {
    SWAP
 ========================= */
 function swap(i, j) {
-
     let temp = array[i];
     array[i] = array[j];
     array[j] = temp;
 }
 
 /* =========================
-   CHECK WIN
+   WIN CHECK
 ========================= */
 function checkWin() {
 
@@ -212,7 +212,6 @@ function checkWin() {
     }
 
     level++;
-
     score += 100;
 
     alert("LEVEL COMPLETE!");
@@ -230,11 +229,9 @@ function startGame() {
     interval = setInterval(() => {
 
         timer--;
-
         update();
 
         if (timer <= 0) {
-
             alert("TIME UP!");
             resetGame();
         }
@@ -242,9 +239,7 @@ function startGame() {
     }, 1000);
 }
 
-/* =========================
-   RESET
-========================= */
+/* RESET */
 function resetGame() {
 
     score = 0;
@@ -255,9 +250,7 @@ function resetGame() {
     generateArray();
 }
 
-/* =========================
-   UPDATE UI
-========================= */
+/* UPDATE UI */
 function update() {
 
     document.getElementById("score").innerText = score;
