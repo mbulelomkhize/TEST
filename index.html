@@ -24,7 +24,7 @@
 
             <div class="btn-grid">
 
-                <button onclick="setAlgorithm('bubble')" class="active">Bubble</button>
+                <button onclick="setAlgorithm('bubble')">Bubble</button>
                 <button onclick="setAlgorithm('selection')">Selection</button>
                 <button onclick="setAlgorithm('insertion')">Insertion</button>
 
@@ -67,22 +67,22 @@
         <!-- BUBBLE -->
         <div id="bubble-ui">
 
-            <button onclick="bubbleAnswer(true)">SWAP</button>
-            <button onclick="bubbleAnswer(false)">DON'T SWAP</button>
+            <button onclick="answer(true)">SWAP</button>
+            <button onclick="answer(false)">DON'T SWAP</button>
 
         </div>
 
         <!-- SELECTION -->
         <div id="selection-ui" style="display:none">
 
-            <button onclick="selectionStep()">SELECT MIN</button>
+            <button onclick="selectMin()">SELECT MIN</button>
 
         </div>
 
         <!-- INSERTION -->
         <div id="insertion-ui" style="display:none">
 
-            <button onclick="insertionStep()">INSERT</button>
+            <button onclick="insertHere()">INSERT</button>
 
         </div>
 
